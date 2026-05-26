@@ -38,7 +38,7 @@ export default function Navbar() {
           {/* Logo */}
           <motion.a
             href="#"
-            className="flex flex-col items-start group"
+            className="flex flex-col items-center group"
             whileHover={{ scale: 1.02 }}
           >
             <span
