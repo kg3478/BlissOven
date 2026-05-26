@@ -46,7 +46,7 @@ export default function WhyBlissOven() {
             Promise
           </h2>
           <p
-            className="text-[#6B3F26]/70 max-w-xl mx-auto leading-[1.8] text-center text-[15px]"
+            className="text-[#6B3F26]/70 max-w-2xl mx-auto leading-[1.9] text-center text-[16px]"
             style={{ fontFamily: "'Lora', serif" }}
           >
             We don't just bake desserts. We create experiences that linger long after the last bite.
@@ -54,14 +54,14 @@ export default function WhyBlissOven() {
         </motion.div>
 
         {/* Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {reasons.map((r, i) => (
             <motion.div
               key={r.title}
               initial={{ opacity: 0, y: 50 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.7, delay: i * 0.07, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="card-luxury p-7 group relative overflow-hidden text-center"
+              className="card-luxury p-8 group relative overflow-hidden text-center"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-[rgba(201,168,76,0.05)] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
 
@@ -74,14 +74,14 @@ export default function WhyBlissOven() {
               </motion.div>
 
               <h3
-                className="text-[#1A0D05] mb-3 relative z-10 leading-snug"
-                style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.05rem", fontWeight: 600 }}
+                className="text-[#1A0D05] mb-4 relative z-10 leading-snug"
+                style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.1rem", fontWeight: 600 }}
               >
                 {r.title}
               </h3>
 
               <p
-                className="text-[#6B3F26]/65 text-[13px] leading-[1.75] relative z-10 text-center"
+                className="text-[#6B3F26]/70 text-[15px] leading-[1.85] relative z-10 text-center"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {r.desc}

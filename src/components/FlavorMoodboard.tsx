@@ -132,7 +132,7 @@ export default function FlavorMoodboard() {
             </span>
           </h2>
           <p
-            className="max-w-xl mx-auto text-center leading-[1.8] opacity-70 text-[15px]"
+            className="max-w-xl mx-auto text-center leading-[1.9] opacity-75 text-[16px]"
             style={{ fontFamily: "'Lora', serif", color: fl.textColor }}
           >
             Hover over each flavour and watch the world transform. Each taste is a universe.
@@ -144,17 +144,16 @@ export default function FlavorMoodboard() {
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-x-4 gap-y-5 mb-20"
+          className="flex flex-wrap justify-center gap-x-5 gap-y-5 mb-24"
         >
           {flavours.map((f, i) => (
             <button
               key={f.name}
               onMouseEnter={() => setActive(i)}
               onClick={() => setActive(i)}
-              className={`flex items-center gap-2 px-6 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-500 border-2 ${
-                active === i
-                  ? "scale-110 shadow-xl"
-                  : "opacity-70 hover:opacity-100 hover:scale-105"
+              className={`flex items-center gap-2 px-6 py-3.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-500 border-2 ${active === i
+                ? "scale-110 shadow-xl"
+                : "opacity-70 hover:opacity-100 hover:scale-105"
               }`}
               style={{
                 fontFamily: "'Inter', sans-serif",
@@ -204,7 +203,7 @@ export default function FlavorMoodboard() {
 
             {/* Name */}
             <h3
-              className="mb-4"
+              className="mb-5"
               style={{
                 fontFamily: "'Playfair Display', serif",
                 fontSize: "clamp(1.8rem,4vw,3rem)",
@@ -217,8 +216,8 @@ export default function FlavorMoodboard() {
 
             {/* Description */}
             <p
-              className="text-lg leading-relaxed mb-8 opacity-75"
-              style={{ fontFamily: "'Lora', serif", color: fl.textColor }}
+              className="text-lg leading-relaxed mb-10 opacity-80"
+              style={{ fontFamily: "'Lora', serif", color: fl.textColor, fontSize: "17px", lineHeight: "1.9" }}
             >
               {fl.desc}
             </p>
@@ -242,7 +241,7 @@ export default function FlavorMoodboard() {
         </AnimatePresence>
 
         {/* Progress dots */}
-        <div className="flex justify-center gap-2 mt-12">
+        <div className="flex justify-center gap-2 mt-16">
           {flavours.map((_, i) => (
             <button
               key={i}

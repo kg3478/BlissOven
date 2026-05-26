@@ -9,7 +9,7 @@ const testimonials = [
     location: "Mumbai",
     rating: 5,
     occasion: "Birthday Cake",
-    text: "I ordered a Red Velvet cake for my daughter's birthday and I was absolutely blown away. The cake was moist, perfectly frosted, and tasted like something from a 5-star hotel. Komal's attention to detail is unmatched. We've found our forever bakery!",
+    text: "I ordered a Red Velvet cake for my daughter's birthday and I was absolutely blown away. The cake was moist, perfectly frosted, and tasted like something from a 5-star hotel. Komal's attention to detail is unmatched!",
     initial: "P",
     color: "#E8D5E8",
   },
@@ -18,7 +18,7 @@ const testimonials = [
     location: "Delhi",
     rating: 5,
     occasion: "Assorted Brownie Box",
-    text: "The Lotus Biscoff and Nutella brownies are out of this world. I ordered an assorted box for my wife's office and her entire team was asking for the contact. Rich, fudgy, and absolutely premium. Will definitely reorder!",
+    text: "The Lotus Biscoff and Nutella brownies are out of this world. I ordered an assorted box for my wife's office and her entire team was asking for the contact. Rich, fudgy, and absolutely premium!",
     initial: "R",
     color: "#D4E8D4",
   },
@@ -27,7 +27,7 @@ const testimonials = [
     location: "Pune",
     rating: 5,
     occasion: "Wedding Anniversary",
-    text: "We wanted something special for our 10th anniversary. Komal created a Rasmalai cake that was nothing short of art. The saffron fragrance, the delicate rose petals — we couldn't believe this was homemade. Absolutely magical.",
+    text: "We wanted something special for our 10th anniversary. Komal created a Rasmalai cake that was nothing short of art. The saffron fragrance, the delicate rose petals — we couldn't believe it was real!",
     initial: "A",
     color: "#E8E4D4",
   },
@@ -36,7 +36,7 @@ const testimonials = [
     location: "Jaipur",
     rating: 5,
     occasion: "Tiramisu Cheesecake",
-    text: "The Tiramisu Cheesecake was the most authentic I've had outside of Italy. Perfectly balanced espresso flavour, silky smooth texture. My family demolished the entire thing in one sitting. A masterpiece!",
+    text: "The Tiramisu Cheesecake was the most authentic I've had outside of Italy. Perfectly balanced espresso flavour, silky smooth texture. My family demolished the entire thing in one sitting!",
     initial: "V",
     color: "#D4D8E8",
   },
@@ -45,7 +45,7 @@ const testimonials = [
     location: "Ahmedabad",
     rating: 5,
     occasion: "Chocolate Truffle Cake",
-    text: "BlissOven is not a bakery, it's an experience. The Chocolate Truffle cake for my son's birthday had everyone speechless. The layers, the ganache, the presentation — restaurant quality at home. Komal is truly gifted!",
+    text: "BlissOven is not a bakery, it's an experience. The Chocolate Truffle cake for my son's birthday had everyone speechless. The layers, the ganache, the presentation — restaurant quality every single time!",
     initial: "M",
     color: "#E8D4D4",
   },
@@ -54,7 +54,7 @@ const testimonials = [
     location: "Bangalore",
     rating: 5,
     occasion: "Custom Order",
-    text: "I gave Komal a very specific brief for a themed cake and she nailed it beyond my expectations. The communication was seamless on WhatsApp, delivery was on time, and the cake was a showstopper. 10/10 every single time.",
+    text: "I gave Komal a very specific brief for a themed cake and she nailed it beyond my expectations. The communication was seamless on WhatsApp, delivery was on time, and the cake was a showstopper!",
     initial: "D",
     color: "#E8D4E4",
   },
@@ -116,7 +116,7 @@ export default function Testimonials() {
               Sweethearts
             </span>
           </h2>
-          <p className="text-[#FAF6F1]/50 max-w-xl mx-auto text-center leading-[1.8] text-[15px]" style={{ fontFamily: "'Lora', serif" }}>
+          <p className="text-[#FAF6F1]/60 max-w-2xl mx-auto text-center leading-[1.9] text-[16px]" style={{ fontFamily: "'Lora', serif" }}>
             Real stories from people who made BlissOven part of their most special moments.
           </p>
         </motion.div>
@@ -134,7 +134,7 @@ export default function Testimonials() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -40 }}
               transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="glass-card p-8 md:p-12 relative"
+              className="glass-card p-10 md:p-14 relative"
             >
               {/* Quote Icon */}
               <Quote
@@ -144,10 +144,10 @@ export default function Testimonials() {
               />
 
               {/* Rating & Occasion */}
-              <div className="flex flex-wrap items-center gap-4 mb-6">
+              <div className="flex flex-wrap items-center gap-5 mb-7">
                 <StarRating count={t.rating} />
                 <span
-                  className="text-xs tracking-widest uppercase text-[#C9A84C]/70 border border-[rgba(201,168,76,0.2)] px-3 py-1 rounded-full"
+                  className="text-xs tracking-widest uppercase text-[#C9A84C]/80 border border-[rgba(201,168,76,0.3)] px-3 py-1.5 rounded-full font-semibold"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   {t.occasion}
@@ -156,8 +156,8 @@ export default function Testimonials() {
 
               {/* Text */}
               <p
-                className="text-[#FAF6F1]/80 leading-[1.85] mb-8 relative z-10 text-center"
-                style={{ fontFamily: "'Lora', serif", fontSize: "clamp(1rem,2vw,1.15rem)" }}
+                className="text-[#FAF6F1]/85 leading-[1.95] mb-10 relative z-10 text-center"
+                style={{ fontFamily: "'Lora', serif", fontSize: "clamp(1rem, 2vw, 1.15rem)" }}
               >
                 &ldquo;{t.text}&rdquo;
               </p>
@@ -165,20 +165,20 @@ export default function Testimonials() {
               {/* Author */}
               <div className="flex items-center gap-4">
                 <div
-                  className="w-11 h-11 rounded-full flex items-center justify-center font-bold text-[#1A0D05] text-base shrink-0"
+                  className="w-12 h-12 rounded-full flex items-center justify-center font-bold text-[#1A0D05] text-base shrink-0"
                   style={{ background: t.color, fontFamily: "'Playfair Display', serif" }}
                 >
                   {t.initial}
                 </div>
                 <div>
                   <p
-                    className="text-[#FAF6F1] font-semibold"
+                    className="text-[#FAF6F1] font-semibold text-[15px]"
                     style={{ fontFamily: "'Playfair Display', serif" }}
                   >
                     {t.name}
                   </p>
                   <p
-                    className="text-[#C9A84C]/60 text-xs tracking-wider"
+                    className="text-[#C9A84C]/70 text-xs tracking-wider"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     {t.location}
@@ -189,7 +189,7 @@ export default function Testimonials() {
           </AnimatePresence>
 
           {/* Controls */}
-          <div className="flex items-center justify-between mt-8 flex-wrap gap-4">
+          <div className="flex items-center justify-between mt-10 flex-wrap gap-6">
             {/* Dots */}
             <div className="flex gap-2">
               {testimonials.map((_, i) => (
@@ -229,7 +229,7 @@ export default function Testimonials() {
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="grid grid-cols-3 gap-6 mt-14 pt-10 border-t border-[rgba(201,168,76,0.1)]"
+          className="grid grid-cols-3 gap-6 mt-16 pt-10 border-t border-[rgba(201,168,76,0.1)]"
         >
           {[
             { num: "5.0", label: "Average Rating", suffix: "★" },
@@ -238,13 +238,13 @@ export default function Testimonials() {
           ].map((s) => (
             <div key={s.label} className="text-center">
               <div
-                className="text-gradient-gold text-2xl md:text-3xl font-bold mb-1"
+                className="text-gradient-gold text-2xl md:text-3xl font-bold mb-2"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 {s.num}{s.suffix}
               </div>
               <div
-                className="text-[#FAF6F1]/40 text-[10px] tracking-widest uppercase"
+                className="text-[#FAF6F1]/40 text-[11px] tracking-widest uppercase"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {s.label}

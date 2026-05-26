@@ -155,41 +155,41 @@ export default function ChefStory() {
               </span>
             </h2>
 
-            <div className="space-y-5 text-[#FAF6F1]/65 mb-8 text-[15px]">
-              <p style={{ fontFamily: "'Lora', serif", lineHeight: 1.85 }}>
+            <div className="space-y-6 text-[#FAF6F1]/70 mb-8 text-[16px]">
+              <p style={{ fontFamily: "'Lora', serif", lineHeight: 1.9 }}>
                 BlissOven was born from a simple belief — that every celebration deserves
                 something extraordinary. Founded by <strong className="text-[#E8D5B7]">Komal Agarwal</strong>,
                 our kitchen is where passion meets precision, and where every dessert is treated as a work of art.
               </p>
-              <p style={{ fontFamily: "'Lora', serif", lineHeight: 1.85 }}>
+              <p style={{ fontFamily: "'Lora', serif", lineHeight: 1.9 }}>
                 Using only premium ingredients, Komal crafts each creation by hand — from the silkiest cheesecakes
                 to the most indulgent brownies and celebration cakes. No shortcuts. No compromises. Just pure,
                 handcrafted love in every bite.
               </p>
-              <p style={{ fontFamily: "'Lora', serif", lineHeight: 1.85 }}>
+              <p style={{ fontFamily: "'Lora', serif", lineHeight: 1.9 }}>
                 Whether it&apos;s your child&apos;s first birthday, a wedding anniversary, or a quiet moment of self-indulgence
                 — BlissOven makes it unforgettable.
               </p>
             </div>
 
             {/* Fact Cards */}
-            <div className="grid grid-cols-2 gap-3 mb-10">
+            <div className="grid grid-cols-2 gap-4 mb-10">
               {facts.map((fact, i) => (
                 <motion.div
                   key={fact.label}
                   initial={{ opacity: 0, y: 20 }}
                   animate={inView ? { opacity: 1, y: 0 } : {}}
                   transition={{ delay: 0.5 + i * 0.12, duration: 0.6 }}
-                  className="glass-card p-4 border-[rgba(201,168,76,0.12)]"
+                  className="glass-card p-5 border-[rgba(201,168,76,0.12)]"
                 >
                   <div
-                    className="text-[#C9A84C] font-bold mb-0.5"
-                    style={{ fontFamily: "'Playfair Display', serif", fontSize: "1rem" }}
+                    className="text-[#C9A84C] font-bold mb-1"
+                    style={{ fontFamily: "'Playfair Display', serif", fontSize: "1.05rem" }}
                   >
                     {fact.value}
                   </div>
                   <div
-                    className="text-[#FAF6F1]/40 text-[10px] tracking-widest uppercase"
+                    className="text-[#FAF6F1]/40 text-[11px] tracking-widest uppercase"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     {fact.label}
@@ -203,17 +203,17 @@ export default function ChefStory() {
               initial={{ opacity: 0 }}
               animate={inView ? { opacity: 1 } : {}}
               transition={{ delay: 0.9, duration: 0.8 }}
-              className="border-l-2 border-[rgba(201,168,76,0.4)] pl-5 mb-8"
+              className="border-l-2 border-[rgba(201,168,76,0.4)] pl-6 mb-8"
             >
               <p
-                className="text-[#E8D5B7] italic"
-                style={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "1.3rem", lineHeight: 1.8 }}
+                className="text-[#E8D5B7] italic text-[17px]"
+                style={{ fontFamily: "'Cormorant Garamond', serif", lineHeight: 1.9 }}
               >
                 &ldquo;Baking is my love language. Every dessert I create carries a piece of my
                 heart — and I hope it reaches yours.&rdquo;
               </p>
               <p
-                className="text-[#C9A84C] text-xs tracking-widest uppercase mt-3"
+                className="text-[#C9A84C] text-xs tracking-widest uppercase mt-4"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 — Komal Agarwal, Founder
