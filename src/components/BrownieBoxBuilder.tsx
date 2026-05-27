@@ -25,7 +25,7 @@ interface BoxSize {
 
 const boxSizes: BoxSize[] = [
   { count: 4, label: "Mini Box", price: "₹XXX", description: "Perfect for 1-2 people" },
-  { count: 8, label: "Gift Box", label2: "Most Popular", price: "₹XXX", description: "Ideal for gifting" },
+  { count: 8, label: "Gift Box", price: "₹XXX", description: "Ideal for gifting" },
   { count: 12, label: "Party Box", price: "₹XXX", description: "Perfect for celebrations" },
 ];
 
