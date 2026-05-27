@@ -67,8 +67,20 @@ export default function HeroSection() {
       >
         {/* Deep layered gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-[#1A0D05] via-[#2C1810] to-[#3D1F0A]" />
+        
+        {/* Utterly Premium & Rich Bakery Background Image Overlay */}
+        <div 
+          className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none"
+          style={{
+            backgroundImage: "url('/background.jpg')",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+        />
+
         {/* Gold radial glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(201,168,76,0.12),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_40%,rgba(201,168,76,0.14),transparent)]" />
         {/* Top vignette */}
         <div className="absolute top-0 left-0 right-0 h-40 bg-gradient-to-b from-[#1A0D05] to-transparent" />
         {/* Bottom vignette */}

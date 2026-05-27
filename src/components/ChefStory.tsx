@@ -23,6 +23,17 @@ export default function ChefStory() {
       className="relative pt-24 pb-40 md:pt-36 md:pb-52 overflow-hidden"
       style={{ background: "linear-gradient(135deg, #1A0D05 0%, #2C1810 50%, #3D1F0A 100%)" }}
     >
+      {/* Premium Bakery Background Texture Overlay */}
+      <div 
+        className="absolute inset-0 opacity-[0.07] mix-blend-overlay pointer-events-none"
+        style={{
+          backgroundImage: "url('/background.jpg')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      />
+
       {/* Decorative glows */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[radial-gradient(circle,rgba(201,168,76,0.07),transparent)] blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[radial-gradient(circle,rgba(201,168,76,0.05),transparent)] blur-3xl pointer-events-none" />
