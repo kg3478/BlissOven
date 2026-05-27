@@ -237,21 +237,21 @@ export default function HeroSection() {
         transition={{ delay: 2, duration: 0.8 }}
         className="absolute bottom-0 left-0 right-0 z-10 border-t border-[rgba(201,168,76,0.1)]"
       >
-        <div className="max-w-4xl mx-auto px-6 py-5 grid grid-cols-3 gap-4">
+        <div className="max-w-4xl mx-auto px-6 py-6 grid grid-cols-3 gap-6">
           {[
             { num: "500+", label: "Happy Customers" },
             { num: "30+", label: "Artisan Creations" },
             { num: "100%", label: "Made to Order" },
           ].map((stat) => (
-            <div key={stat.label} className="text-center">
+            <div key={stat.label} className="text-center flex flex-col items-center justify-center">
               <div
-                className="text-gradient-gold font-display text-xl md:text-2xl font-bold"
+                className="text-gradient-gold font-display text-xl md:text-2xl font-bold mb-2"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 {stat.num}
               </div>
               <div
-                className="text-[10px] md:text-xs text-[rgba(201,168,76,0.5)] tracking-widest uppercase mt-0.5"
+                className="text-[11px] md:text-xs text-[rgba(201,168,76,0.6)] tracking-widest uppercase font-medium text-center"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
                 {stat.label}
