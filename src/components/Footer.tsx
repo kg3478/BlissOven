@@ -126,12 +126,11 @@ export default function Footer() {
                 href="https://wa.me/919999999999"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase text-[#1A0D05] transition-all duration-300 hover:shadow-[0_4px_20px_rgba(37,211,102,0.4)]"
-                style={{ fontFamily: "'Inter', sans-serif", background: "linear-gradient(135deg,#25D366,#128C7E)" }}
+                className="w-10 h-10 rounded-full flex items-center justify-center text-[#FAF6F1] transition-all duration-300 hover:shadow-[0_4px_20px_rgba(37,211,102,0.4)] hover:scale-105"
+                style={{ background: "linear-gradient(135deg,#25D366,#128C7E)" }}
                 aria-label="WhatsApp"
               >
-                <MessageCircle size={14} />
-                Order on WhatsApp
+                <MessageCircle size={18} />
               </a>
             </div>
           </motion.div>
