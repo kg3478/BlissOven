@@ -1,18 +1,18 @@
 "use client";
 import { useState, useRef } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { Plus, Minus, Check, ShoppingBag, X } from "lucide-react";
+import { Plus, Minus, ShoppingBag, X, Sparkles, Trash2 } from "lucide-react";
 
 const brownieFlavors = [
-  { id: "fudgy", name: "Fudgy Brownie", emoji: "🍫", color: "#3D1F0A" },
-  { id: "walnut", name: "Walnut Brownie", emoji: "🌰", color: "#6B3F26" },
-  { id: "double-choc", name: "Double Chocolate", emoji: "🍫", color: "#2C1810" },
-  { id: "triple-choc", name: "Triple Chocolate", emoji: "✨", color: "#1A0D05" },
-  { id: "biscoff", name: "Lotus Biscoff", emoji: "🍪", color: "#8B4513" },
-  { id: "oreo", name: "Oreo Brownie", emoji: "⚫", color: "#1C1C1C" },
-  { id: "kitkat", name: "KitKat Brownie", emoji: "🍫", color: "#C0392B" },
-  { id: "chocochips", name: "Chocochips", emoji: "🍪", color: "#4A2C0A" },
-  { id: "nutella", name: "Nutella Brownie", emoji: "🌰", color: "#7B3F00" },
+  { id: "fudgy", name: "Fudgy Brownie", emoji: "🍫", desc: "Molten chocolate core with a delicate crinkle top.", color: "#3D1F0A" },
+  { id: "walnut", name: "Walnut Brownie", emoji: "🌰", desc: "Premium toasted California walnuts for perfect crunch.", color: "#6B3F26" },
+  { id: "double-choc", name: "Double Chocolate", emoji: "🍫", desc: "Stuffed with sweet Belgian milk chocolate chunks.", color: "#2C1810" },
+  { id: "triple-choc", name: "Triple Chocolate", emoji: "✨", desc: "Rich dark, milk, and white chocolate trifecta.", color: "#1A0D05" },
+  { id: "biscoff", name: "Lotus Biscoff", emoji: "🍪", desc: "Swirled with sweet caramelised spiced cookie butter.", color: "#8B4513" },
+  { id: "oreo", name: "Oreo Brownie", emoji: "⚫", desc: "Crushed Oreo biscuits folded in a double-cocoa batter.", color: "#1C1C1C" },
+  { id: "kitkat", name: "KitKat Brownie", emoji: "🍫", desc: "Crispy KitKat wafer bars baked inside a fudgy base.", color: "#C0392B" },
+  { id: "chocochips", name: "Chocochips", emoji: "🍪", desc: "Generously studded with sweet melt-in-mouth chips.", color: "#4A2C0A" },
+  { id: "nutella", name: "Nutella Brownie", emoji: "🌰", desc: "Velvety Nutella hazelnut center swirl perfection.", color: "#7B3F00" },
 ];
 
 interface BoxSize {
@@ -34,7 +34,6 @@ export default function BrownieBoxBuilder() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
   const [selectedSize, setSelectedSize] = useState(boxSizes[1]);
   const [selections, setSelections] = useState<Record<string, number>>({});
-  const [showOrder, setShowOrder] = useState(false);
 
   const total = Object.values(selections).reduce((a, b) => a + b, 0);
   const remaining = selectedSize.count - total;
@@ -67,264 +66,336 @@ export default function BrownieBoxBuilder() {
     );
   };
 
-  return (
-    <section id="brownie-builder" className="py-24 md:py-32 bg-[#F5EFE6] relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_0%,rgba(201,168,76,0.06),transparent)]" />
+  // Generate box slots list for visual preview
+  const filledItems = Object.entries(selections).flatMap(([id, qty]) =>
+    Array(qty).fill(id)
+  );
 
-      <div ref={ref} className="max-w-5xl mx-auto px-6">
+  return (
+    <section id="brownie-builder" className="py-24 md:py-32 relative overflow-hidden" style={{ background: "#FAF6F1" }}>
+      {/* Aesthetic background details */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#C9A84C]/30 to-transparent" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_40%_at_50%_100%,rgba(201,168,76,0.04),transparent)]" />
+      <div className="absolute top-1/3 left-0 w-96 h-96 bg-[radial-gradient(circle,rgba(232,197,71,0.04),transparent)] blur-3xl pointer-events-none" />
+
+      <div ref={ref} className="max-w-7xl mx-auto px-6">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="text-center mb-14"
+          className="text-center mb-16"
         >
-          <div className="flex items-center justify-center gap-3 mb-4">
+          <div className="flex items-center justify-center gap-3 mb-5">
             <div className="gold-divider w-12" />
-            <span className="section-label">Build Your Box</span>
+            <span className="section-label">Artisan Patisserie</span>
             <div className="gold-divider w-12" />
           </div>
           <h2
             className="text-[#1A0D05] mb-5 leading-snug"
             style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(2rem,4vw,3.5rem)", fontWeight: 700 }}
           >
-            Craft Your{" "}
+            Build Your{" "}
             <span className="text-gradient-gold italic" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
               Brownie Box
             </span>
           </h2>
           <p className="text-[#6B3F26]/70 max-w-xl mx-auto text-center leading-[1.8] text-[15px]" style={{ fontFamily: "'Lora', serif" }}>
-            Mix and match from 9 signature flavours. Build the perfect brownie collection for yourself or as a gift.
+            Unleash your inner chef. Choose your box size, select from our 9 signature handmade brownie flavors, and watch your custom box fill up in real time!
           </p>
         </motion.div>
 
-        {/* Box Size Selector Card Wrapper */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="bg-white/80 backdrop-blur-md border border-[rgba(201,168,76,0.15)] rounded-3xl p-5 sm:p-8 md:p-10 shadow-[0_15px_35px_rgba(26,13,5,0.05)] mb-12 max-w-3xl mx-auto"
-        >
-          <div className="text-center mb-8">
-            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">
-              Step 01
-            </span>
-            <h3 className="text-[#1A0D05] text-lg md:text-2xl font-bold mt-1" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Choose Your Box Size
-            </h3>
-            <p className="text-[#6B3F26]/60 text-xs mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>
-              Select the perfect box size to fill with signature brownie flavors
-            </p>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6">
-            {boxSizes.map((size) => (
-              <button
-                key={size.count}
-                onClick={() => { setSelectedSize(size); reset(); }}
-                className={`relative aspect-square flex flex-col justify-center items-center p-2 sm:p-4 md:p-6 rounded-2xl border-2 text-center transition-all duration-400 cursor-pointer ${
-                  selectedSize.count === size.count
-                    ? "border-[#C9A84C] bg-[#1A0D05] shadow-[0_8px_30px_rgba(201,168,76,0.15)]"
-                    : "border-[rgba(201,168,76,0.15)] bg-white/60 hover:border-[#C9A84C]/50"
-                }`}
-              >
-                {size.label2 && (
-                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#C9A84C] text-[#1A0D05] text-[7px] sm:text-[9px] font-extrabold tracking-widest uppercase px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full whitespace-nowrap shadow-sm z-10">
-                    {size.label2}
-                  </div>
-                )}
-                <div
-                  className={`text-2xl sm:text-4xl md:text-5xl font-bold mb-1 leading-none ${selectedSize.count === size.count ? "text-gradient-gold" : "text-[#1A0D05]"}`}
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {size.count}
-                </div>
-                <div
-                  className={`font-semibold text-[10px] sm:text-xs md:text-sm mb-1 leading-normal ${selectedSize.count === size.count ? "text-[#FAF6F1]" : "text-[#3D1F0A]"}`}
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {size.label}
-                </div>
-                <div
-                  className={`text-[8px] sm:text-[10px] md:text-xs leading-tight mt-0.5 sm:mt-1 ${selectedSize.count === size.count ? "text-[#C9A84C]/70" : "text-[#6B3F26]/60"}`}
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  {size.description}
-                </div>
-              </button>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* Progress Bar */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.7, delay: 0.3 }}
-          className="mb-12 border-b border-[rgba(201,168,76,0.1)] pb-6"
-        >
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-[#6B3F26] text-sm font-semibold tracking-wide" style={{ fontFamily: "'Inter', sans-serif" }}>
-              {total} of {selectedSize.count} Brownies Selected
-            </span>
-            <span
-              className={`text-sm font-bold tracking-wide ${remaining === 0 ? "text-green-600" : "text-[#C9A84C]"}`}
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              {remaining === 0 ? "Box Complete! 🎉" : `${remaining} remaining`}
-            </span>
-          </div>
-          <div className="w-full h-2.5 bg-[rgba(201,168,76,0.15)] rounded-full overflow-hidden">
-            <motion.div
-              className="h-full rounded-full"
-              style={{ background: "linear-gradient(90deg,#C9A84C,#E4C76B)" }}
-              animate={{ width: `${(total / selectedSize.count) * 100}%` }}
-              transition={{ duration: 0.4 }}
-            />
-          </div>
-        </motion.div>
-
-        {/* Flavor Grid */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mb-14"
-        >
-          {brownieFlavors.map((flavor, i) => {
-            const qty = selections[flavor.id] || 0;
-            const canAdd = total < selectedSize.count;
-
-            return (
-              <motion.div
-                key={flavor.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={inView ? { opacity: 1, scale: 1 } : {}}
-                transition={{ delay: 0.4 + i * 0.06 }}
-                className={`relative p-6 rounded-2xl border transition-all duration-300 flex flex-col items-center text-center ${
-                  qty > 0
-                    ? "border-[#C9A84C] bg-[#1A0D05]/5 shadow-[0_8px_25px_rgba(201,168,76,0.1)]"
-                    : "border-[rgba(201,168,76,0.15)] bg-white/60 hover:border-[#C9A84C]/45"
-                }`}
-              >
-                {/* Selected badge */}
-                {qty > 0 && (
-                  <div className="absolute top-3 right-3 w-6 h-6 bg-[#C9A84C] rounded-full flex items-center justify-center shadow-md">
-                    <span className="text-[#1A0D05] text-xs font-bold">{qty}</span>
-                  </div>
-                )}
-
-                <div className="text-4xl mb-3">{flavor.emoji}</div>
-                <h3
-                  className="text-[#1A0D05] text-[15px] font-semibold mb-4 leading-tight"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  {flavor.name}
+        {/* Dynamic Split Screen Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* ─── LEFT SIDE (Sticky Box Preview & Selector) ─── */}
+          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
+            
+            {/* Box Size Selector Card */}
+            <div className="bg-[#1A0D05] border border-[#C9A84C]/35 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(26,13,5,0.25)]">
+              <div className="text-center mb-6">
+                <span className="text-[9px] uppercase tracking-widest text-[#C9A84C] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  Step 01
+                </span>
+                <h3 className="text-[#FAF6F1] text-base md:text-xl font-bold mt-0.5" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Select Box Size
                 </h3>
-
-                {/* Qty Controls */}
-                <div className="flex items-center gap-3">
-                  <button
-                    onClick={() => remove(flavor.id)}
-                    disabled={qty === 0}
-                    className="w-8 h-8 rounded-full border border-[rgba(201,168,76,0.3)] flex items-center justify-center text-[#6B3F26] disabled:opacity-30 hover:border-[#C9A84C] hover:bg-white transition-all shadow-sm"
-                  >
-                    <Minus size={13} />
-                  </button>
-                  <span className="w-8 text-center text-sm font-bold text-[#1A0D05]" style={{ fontFamily: "'Inter', sans-serif" }}>
-                    {qty}
-                  </span>
-                  <button
-                    onClick={() => add(flavor.id)}
-                    disabled={!canAdd}
-                    className="w-8 h-8 rounded-full border border-[rgba(201,168,76,0.3)] flex items-center justify-center text-[#6B3F26] disabled:opacity-30 hover:bg-[#C9A84C] hover:border-[#C9A84C] hover:text-[#1A0D05] transition-all shadow-sm"
-                  >
-                    <Plus size={13} />
-                  </button>
-                </div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
-
-        {/* Order Summary */}
-        <AnimatePresence>
-          {total > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="card-luxury p-6 mb-6"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <h4
-                  className="text-[#1A0D05] font-semibold"
-                  style={{ fontFamily: "'Playfair Display', serif" }}
-                >
-                  Your Selection
-                </h4>
-                <button
-                  onClick={reset}
-                  className="text-[#6B3F26]/50 hover:text-[#6B3F26] text-xs flex items-center gap-1 transition-colors"
-                  style={{ fontFamily: "'Inter', sans-serif" }}
-                >
-                  <X size={12} /> Reset
-                </button>
               </div>
-              <div className="flex flex-wrap gap-2">
-                {Object.entries(selections).map(([id, qty]) => {
-                  const f = brownieFlavors.find((b) => b.id === id)!;
+
+              <div className="grid grid-cols-3 gap-3">
+                {boxSizes.map((size) => {
+                  const active = selectedSize.count === size.count;
                   return (
-                    <span
-                      key={id}
-                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium text-[#FAF6F1]"
-                      style={{ background: f.color, fontFamily: "'Inter', sans-serif" }}
+                    <button
+                      key={size.count}
+                      onClick={() => { setSelectedSize(size); reset(); }}
+                      className={`relative aspect-square flex flex-col justify-center items-center p-2 rounded-2xl border transition-all duration-400 cursor-pointer ${
+                        active
+                          ? "border-[#C9A84C] bg-[#FAF6F1] shadow-[0_8px_30px_rgba(201,168,76,0.15)]"
+                          : "border-[rgba(201,168,76,0.15)] bg-white/5 hover:border-[#C9A84C]/50"
+                      }`}
                     >
-                      {f.emoji} {f.name} ×{qty}
-                    </span>
+                      {size.label2 && (
+                        <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-[#C9A84C] text-[#1A0D05] text-[7px] font-extrabold tracking-widest uppercase px-2 py-0.5 rounded-full whitespace-nowrap shadow-sm z-10">
+                          {size.label2}
+                        </div>
+                      )}
+                      <div
+                        className={`text-2xl sm:text-3xl font-bold mb-0.5 ${active ? "text-[#1A0D05]" : "text-[#E8D5B7]"}`}
+                        style={{ fontFamily: "'Playfair Display', serif" }}
+                      >
+                        {size.count}
+                      </div>
+                      <div
+                        className={`font-semibold text-[10px] leading-tight ${active ? "text-[#1A0D05]" : "text-[#FAF6F1]/80"}`}
+                        style={{ fontFamily: "'Playfair Display', serif" }}
+                      >
+                        {size.label}
+                      </div>
+                      <div
+                        className={`text-[8px] leading-tight mt-1 ${active ? "text-[#C9A84C]" : "text-[#FAF6F1]/40"}`}
+                        style={{ fontFamily: "'Inter', sans-serif" }}
+                      >
+                        {size.description}
+                      </div>
+                    </button>
                   );
                 })}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
 
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.6 }}
-          className="flex flex-col items-center justify-center gap-4 mt-8"
-        >
-          {remaining === 0 ? (
-            <a
-              href={`https://wa.me/919999999999?text=${buildMessage()}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-magnetic btn-primary flex items-center gap-2 text-sm px-8 py-4"
-            >
-              <ShoppingBag size={16} />
-              Order My Box on WhatsApp
-            </a>
-          ) : (
-            <button
-              disabled
-              className="btn-magnetic btn-dark opacity-50 cursor-not-allowed text-sm flex items-center gap-2 px-8 py-4"
-            >
-              <ShoppingBag size={16} />
-              Select {remaining} more brownie{remaining !== 1 ? "s" : ""} to order
-            </button>
-          )}
-          <a
-            href="https://wa.me/919999999999?text=Hi%20BlissOven!%20I%20have%20a%20custom%20brownie%20box%20request."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-[#C9A84C] text-xs font-semibold tracking-widest uppercase hover:text-[#E4C76B] transition-colors mt-2"
-            style={{ fontFamily: "'Inter', sans-serif" }}
-          >
-            ✦ Need a custom combination? ✦
-          </a>
-        </motion.div>
+            {/* Visual Box Preview */}
+            <div className="bg-[#1A0D05] border border-[#C9A84C]/35 rounded-3xl p-6 md:p-8 shadow-[0_20px_50px_rgba(26,13,5,0.25)] relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-[radial-gradient(circle,rgba(201,168,76,0.03),transparent)] blur-xl pointer-events-none" />
+
+              <div className="text-center mb-6">
+                <span className="text-[9px] uppercase tracking-widest text-[#C9A84C] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  Step 02
+                </span>
+                <h3 className="text-[#FAF6F1] text-base md:text-xl font-bold mt-0.5" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Your Custom Assorted Box
+                </h3>
+              </div>
+
+              {/* Grid representation of physical brownie box */}
+              <div className={`grid gap-3.5 mb-6 max-w-sm mx-auto p-4 rounded-2xl border border-[rgba(201,168,76,0.1)] bg-[#0D0600] ${
+                selectedSize.count === 4 ? "grid-cols-2" : "grid-cols-4"
+              }`}>
+                {Array.from({ length: selectedSize.count }).map((_, index) => {
+                  const flavorId = filledItems[index];
+                  const flavor = flavorId ? brownieFlavors.find(f => f.id === flavorId) : null;
+                  
+                  return (
+                    <div
+                      key={index}
+                      className={`aspect-square rounded-xl border flex flex-col items-center justify-center relative group transition-all duration-500 overflow-hidden ${
+                        flavor 
+                          ? "border-[#C9A84C] bg-gradient-to-br from-[#FAF6F1] to-[#F5EFE6] text-[#1A0D05]"
+                          : "border-dashed border-[rgba(201,168,76,0.15)] bg-[#1A0D05]/20"
+                      }`}
+                    >
+                      {flavor ? (
+                        <motion.div
+                          initial={{ scale: 0, rotate: -45 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          className="flex flex-col items-center justify-center w-full h-full p-1"
+                        >
+                          <span className="text-2xl md:text-3xl leading-none mb-1 select-none">{flavor.emoji}</span>
+                          <span className="text-[8px] font-bold tracking-widest uppercase leading-none opacity-80 select-none text-center truncate w-full" style={{ fontFamily: "'Inter', sans-serif" }}>
+                            {flavor.name.split(" ")[0]}
+                          </span>
+                          
+                          {/* Hover Remove Trigger */}
+                          <button
+                            onClick={() => remove(flavor.id)}
+                            className="absolute inset-0 bg-[#C0392B]/95 text-white flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 cursor-pointer"
+                            aria-label={`Remove ${flavor.name}`}
+                          >
+                            <Trash2 size={15} className="mb-0.5" />
+                            <span className="text-[7px] font-bold tracking-widest uppercase">Remove</span>
+                          </button>
+                        </motion.div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center gap-1 select-none">
+                          <div className="w-1.5 h-1.5 rounded-full bg-[rgba(201,168,76,0.2)]" />
+                          <span className="text-[7px] text-[rgba(201,168,76,0.25)] font-bold tracking-widest uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>Empty</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Status Indicator */}
+              <div className="border-t border-[rgba(201,168,76,0.08)] pt-5">
+                <div className="flex justify-between items-center text-xs mb-2">
+                  <span className="text-[#FAF6F1]/55 tracking-wider" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    Status: <strong className="text-[#E8D5B7]">{total} / {selectedSize.count} Filled</strong>
+                  </span>
+                  <span className={`font-bold tracking-widest uppercase text-[10px] ${remaining === 0 ? "text-green-500" : "text-[#C9A84C]"}`}>
+                    {remaining === 0 ? "Box Ready! 📦" : `${remaining} slot${remaining !== 1 ? "s" : ""} left`}
+                  </span>
+                </div>
+                <div className="w-full h-1.5 bg-[#FAF6F1]/10 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full"
+                    style={{ background: "linear-gradient(90deg, #C9A84C, #FAF6F1)" }}
+                    animate={{ width: `${(total / selectedSize.count) * 100}%` }}
+                    transition={{ duration: 0.35 }}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Dynamic CTA Module */}
+            <div className="text-center pt-2">
+              {remaining === 0 ? (
+                <a
+                  href={`https://wa.me/919999999999?text=${buildMessage()}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-magnetic btn-primary flex items-center justify-center gap-2 text-sm w-full py-4 shadow-[0_8px_30px_rgba(201,168,76,0.3)] animate-pulse"
+                >
+                  <ShoppingBag size={15} />
+                  Order Custom Box on WhatsApp
+                </a>
+              ) : (
+                <button
+                  disabled
+                  className="btn-magnetic btn-dark opacity-45 cursor-not-allowed text-xs flex items-center justify-center gap-2 w-full py-4"
+                >
+                  <ShoppingBag size={15} />
+                  Select {remaining} more to checkout
+                </button>
+              )}
+              <a
+                href="https://wa.me/919999999999?text=Hi%20BlissOven!%20I'd%20like%20to%20order%20an%20assorted%20brownie%20box."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block text-[#C9A84C] text-[10px] font-semibold tracking-[0.2em] uppercase hover:text-[#FAF6F1] transition-colors mt-4"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                ✦ Custom Gifting combinations ✦
+              </a>
+            </div>
+
+          </div>
+
+          {/* ─── RIGHT SIDE (Flavors Browser) ─── */}
+          <div className="lg:col-span-7 space-y-6">
+            <div className="bg-[#FAF6F1] border border-[rgba(201,168,76,0.15)] rounded-3xl p-6 md:p-8 shadow-[0_15px_30px_rgba(26,13,5,0.02)]">
+              <div className="text-center lg:text-left mb-8 border-b border-[rgba(201,168,76,0.08)] pb-5">
+                <span className="text-[9px] uppercase tracking-widest text-[#C9A84C] font-semibold" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  Step 03
+                </span>
+                <h3 className="text-[#1A0D05] text-base md:text-xl font-bold mt-0.5" style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Browse Brownie Flavors
+                </h3>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {brownieFlavors.map((flavor, i) => {
+                  const qty = selections[flavor.id] || 0;
+                  const canAdd = total < selectedSize.count;
+
+                  return (
+                    <motion.div
+                      key={flavor.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={inView ? { opacity: 1, y: 0 } : {}}
+                      transition={{ delay: 0.15 + i * 0.05 }}
+                      className={`relative p-5 rounded-2xl border transition-all duration-400 flex flex-col justify-between ${
+                        qty > 0
+                          ? "border-[#C9A84C] bg-[#1A0D05] text-[#FAF6F1] shadow-[0_10px_25px_rgba(26,13,5,0.15)]"
+                          : "border-[rgba(201,168,76,0.12)] bg-white hover:border-[#C9A84C]/50 shadow-[0_4px_12px_rgba(0,0,0,0.01)]"
+                      }`}
+                    >
+                      {/* Ribbon / Badge count */}
+                      {qty > 0 && (
+                        <div className="absolute top-3 right-3 bg-[#C9A84C] text-[#1A0D05] text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center shadow">
+                          {qty}
+                        </div>
+                      )}
+
+                      <div>
+                        {/* Header details */}
+                        <div className="flex items-center gap-3 mb-2.5">
+                          <span className="text-3xl leading-none select-none">{flavor.emoji}</span>
+                          <h4
+                            className="font-bold text-[14.5px] leading-tight"
+                            style={{
+                              fontFamily: "'Playfair Display', serif",
+                              color: qty > 0 ? "#FAF6F1" : "#1A0D05"
+                            }}
+                          >
+                            {flavor.name}
+                          </h4>
+                        </div>
+
+                        {/* Flavor Note */}
+                        <p
+                          className="text-xs leading-normal mb-5 pr-2"
+                          style={{
+                            fontFamily: "'Lora', serif",
+                            color: qty > 0 ? "rgba(250,246,241,0.65)" : "rgba(107,63,38,0.9)"
+                          }}
+                        >
+                          {flavor.desc}
+                        </p>
+                      </div>
+
+                      {/* Control buttons row */}
+                      <div className="flex items-center justify-between border-t pt-3.5 border-[rgba(201,168,76,0.08)]">
+                        <span className="text-[10px] tracking-widest uppercase font-semibold text-[#C9A84C]" style={{ fontFamily: "'Inter', sans-serif" }}>
+                          Qty
+                        </span>
+                        
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => remove(flavor.id)}
+                            disabled={qty === 0}
+                            className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-300 disabled:opacity-20 cursor-pointer ${
+                              qty > 0
+                                ? "border-[#C9A84C]/40 text-[#C9A84C] hover:bg-white/5 hover:text-white"
+                                : "border-[rgba(201,168,76,0.2)] text-[#6B3F26] hover:bg-[#FAF6F1]"
+                            }`}
+                          >
+                            <Minus size={11} />
+                          </button>
+                          
+                          <span
+                            className="w-6 text-center text-xs font-bold"
+                            style={{
+                              fontFamily: "'Inter', sans-serif",
+                              color: qty > 0 ? "#FAF6F1" : "#1A0D05"
+                            }}
+                          >
+                            {qty}
+                          </span>
+                          
+                          <button
+                            onClick={() => add(flavor.id)}
+                            disabled={!canAdd}
+                            className={`w-7 h-7 rounded-full border flex items-center justify-center transition-all duration-300 disabled:opacity-20 cursor-pointer ${
+                              qty > 0
+                                ? "bg-[#C9A84C] border-[#C9A84C] text-[#1A0D05] hover:bg-[#FAF6F1]"
+                                : "border-[rgba(201,168,76,0.2)] text-[#6B3F26] hover:bg-[#C9A84C] hover:text-[#1A0D05] hover:border-[#C9A84C]"
+                            }`}
+                          >
+                            <Plus size={11} />
+                          </button>
+                        </div>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
       </div>
     </section>
   );
