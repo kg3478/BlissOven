@@ -25,7 +25,7 @@ export default function ChefStory() {
     >
       {/* Premium Bakery Background Texture Overlay */}
       <div 
-        className="absolute inset-0 opacity-[0.07] mix-blend-overlay pointer-events-none"
+        className="absolute inset-0 opacity-[0.18] mix-blend-overlay pointer-events-none"
         style={{
           backgroundImage: "url('/background.jpg')",
           backgroundSize: "cover",

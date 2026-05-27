@@ -15,7 +15,7 @@ export default function Home() {
     <main className="min-h-screen bg-[#FAF6F1] text-[#1A0D05] selection:bg-[#C9A84C] selection:text-[#1A0D05] overflow-x-hidden relative">
       {/* Subtle Page-Wide Premium Bakery Background Texture Overlay */}
       <div 
-        className="absolute inset-0 opacity-[0.018] pointer-events-none z-[1]"
+        className="absolute inset-0 opacity-[0.05] pointer-events-none z-[1]"
         style={{
           backgroundImage: "url('/background.jpg')",
           backgroundSize: "100% auto",

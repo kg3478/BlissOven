@@ -70,7 +70,7 @@ export default function HeroSection() {
         
         {/* Utterly Premium & Rich Bakery Background Image Overlay */}
         <div 
-          className="absolute inset-0 opacity-[0.08] mix-blend-overlay pointer-events-none"
+          className="absolute inset-0 opacity-[0.18] mix-blend-overlay pointer-events-none"
           style={{
             backgroundImage: "url('/background.jpg')",
             backgroundSize: "cover",
