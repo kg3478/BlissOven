@@ -6,6 +6,7 @@ import FusionCollection from "@/components/FusionCollection";
 import ChefStory from "@/components/ChefStory";
 import WhyBlissOven from "@/components/WhyBlissOven";
 import BrownieBoxBuilder from "@/components/BrownieBoxBuilder";
+import ChocolateBoxBuilder from "@/components/ChocolateBoxBuilder";
 
 import Footer from "@/components/Footer";
 
@@ -23,6 +24,9 @@ export default function Home() {
 
       {/* Interactive Brownie Box Builder */}
       <BrownieBoxBuilder />
+
+      {/* Interactive Chocolate Box Builder */}
+      <ChocolateBoxBuilder />
 
       {/* Signature Indian Royal Fusion Cakes */}
       <FusionCollection />

@@ -1,11 +1,11 @@
 "use client";
-import { useState, useRef } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
-import { getByCategory, CATEGORIES } from "@/lib/products";
-import { ProductsGrid } from "@/components/ProductCard";
+import { useRef } from "react";
+import { useRouter } from "next/navigation";
+import { motion, useInView } from "framer-motion";
+import { CATEGORIES } from "@/lib/products";
 
 // Rich, unique premium color palette for each category
-const CATEGORY_VISUALS: Record<string, {
+export const CATEGORY_VISUALS: Record<string, {
   bg: string;
   accent: string;
   glow: string;
@@ -119,12 +119,10 @@ const CATEGORY_VISUALS: Record<string, {
 
 function CategoryTile({
   cat,
-  isActive,
   onClick,
   index,
 }: {
   cat: { name: string; emoji: string; description: string };
-  isActive: boolean;
   onClick: () => void;
   index: number;
 }) {
@@ -134,17 +132,14 @@ function CategoryTile({
     <motion.button
       initial={{ opacity: 0, y: 30, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ duration: 0.5, delay: index * 0.06, ease: [0.25, 0.46, 0.45, 0.94] }}
+      transition={{ duration: 0.5, delay: index * 0.05, ease: [0.25, 0.46, 0.45, 0.94] }}
       whileHover={{ y: -8, scale: 1.04 }}
       whileTap={{ scale: 0.97 }}
       onClick={onClick}
-      className="relative group cursor-pointer rounded-2xl overflow-hidden flex flex-col items-center justify-between"
+      className="relative group cursor-pointer rounded-xl md:rounded-2xl overflow-hidden flex flex-col items-center justify-center p-3 md:p-6 min-h-[110px] md:min-h-[180px]"
       style={{
-        minHeight: "180px",
-        border: isActive ? `2px solid ${visuals.accent}` : "2px solid rgba(255,255,255,0.07)",
-        boxShadow: isActive
-          ? `0 0 40px ${visuals.glow}, 0 20px 60px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15)`
-          : "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05)",
+        border: "2px solid rgba(255,255,255,0.07)",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.05)",
         transition: "all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
       }}
     >
@@ -160,19 +155,6 @@ function CategoryTile({
         style={{ background: visuals.pattern }}
       />
 
-      {/* Active shimmer */}
-      {isActive && (
-        <motion.div
-          className="absolute inset-0"
-          style={{
-            background: `linear-gradient(90deg, transparent 0%, ${visuals.accent}20 50%, transparent 100%)`,
-            backgroundSize: "200% 100%",
-          }}
-          animate={{ backgroundPosition: ["200% 0", "-200% 0"] }}
-          transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
-        />
-      )}
-
       {/* Noise texture */}
       <div className="absolute inset-0 opacity-[0.04]"
         style={{
@@ -181,19 +163,10 @@ function CategoryTile({
       />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-4 py-6 gap-3">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full px-2 py-3 md:px-4 md:py-6 gap-2 md:gap-3">
         {/* Emoji */}
         <motion.div
-          animate={isActive
-            ? { scale: [1, 1.15, 1], rotate: [0, 5, -5, 0] }
-            : { scale: 1, rotate: 0 }
-          }
-          transition={isActive
-            ? { duration: 2, repeat: Infinity, ease: "easeInOut" }
-            : {}
-          }
-          className="text-4xl leading-none"
-          style={{ filter: isActive ? `drop-shadow(0 0 12px ${visuals.accent})` : "none" }}
+          className="text-2xl md:text-4xl leading-none"
         >
           {cat.emoji}
         </motion.div>
@@ -201,64 +174,42 @@ function CategoryTile({
         {/* Category name */}
         <div className="text-center">
           <p
-            className="font-bold leading-tight text-center"
+            className="font-bold leading-tight text-center text-[10px] md:text-sm"
             style={{
               fontFamily: "'Playfair Display', serif",
-              fontSize: "clamp(0.85rem, 1.5vw, 1.05rem)",
-              color: isActive ? visuals.textColor : "rgba(255,255,255,0.7)",
-              textShadow: isActive ? `0 0 20px ${visuals.glow}` : "none",
+              color: "rgba(255,255,255,0.85)",
               transition: "all 0.35s ease",
             }}
           >
             {cat.name}
           </p>
         </div>
-
-        {/* Active indicator dot */}
-        <motion.div
-          animate={{ scale: isActive ? 1 : 0, opacity: isActive ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="w-1.5 h-1.5 rounded-full"
-          style={{ background: visuals.accent, boxShadow: `0 0 8px ${visuals.accent}` }}
-        />
       </div>
 
       {/* Bottom accent bar */}
       <motion.div
-        animate={{ scaleX: isActive ? 1 : 0 }}
-        transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-        className="absolute bottom-0 left-0 right-0 h-[3px] origin-left"
-        style={{ background: `linear-gradient(90deg, transparent, ${visuals.accent}, transparent)` }}
+        className="absolute bottom-0 left-0 right-0 h-[3px] origin-left bg-gradient-to-r from-transparent via-[#C9A84C] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
       />
     </motion.button>
   );
 }
 
 export default function ProductCollections() {
-  const [activeCategory, setActiveCategory] = useState("Baked Cakes");
   const ref = useRef(null);
+  const router = useRouter();
   const inView = useInView(ref, { once: true, margin: "-100px" });
-  const filtered = getByCategory(activeCategory);
-  const activeVisuals = CATEGORY_VISUALS[activeCategory] || CATEGORY_VISUALS["Baked Cakes"];
+
+  const slugify = (text: string) => text.toLowerCase().replace(/ /g, "-");
+
+  const handleCategoryClick = (name: string) => {
+    router.push(`/collections/${slugify(name)}`);
+  };
 
   return (
     <section id="collections" className="py-24 md:py-32 relative overflow-hidden"
       style={{ background: "linear-gradient(180deg, #FAF6F1 0%, #F0EAE0 60%, #FAF6F1 100%)" }}
     >
-      {/* Dynamic background glow that changes with active category */}
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={activeCategory + "-bg"}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: `radial-gradient(ellipse 70% 40% at 50% 0%, ${activeVisuals.glow.replace("0.5", "0.07")} 0%, transparent 70%)`,
-          }}
-        />
-      </AnimatePresence>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_40%_at_50%_0%,rgba(201,168,76,0.02)_0%,transparent_70%)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6">
         {/* Header */}
@@ -291,63 +242,22 @@ export default function ProductCollections() {
           </p>
         </motion.div>
 
-        {/* Category Tiles Grid */}
+        {/* Category Tiles Grid: exactly 3 columns on mobile (fits 9 items in 3 rows!) */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mb-14"
+          className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-4 mb-14"
         >
           {CATEGORIES.map((cat, index) => (
             <CategoryTile
               key={cat.name}
               cat={cat}
-              isActive={activeCategory === cat.name}
-              onClick={() => setActiveCategory(cat.name)}
+              onClick={() => handleCategoryClick(cat.name)}
               index={index}
             />
           ))}
         </motion.div>
-
-        {/* Category Description */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            transition={{ duration: 0.35 }}
-            className="text-center mb-14"
-          >
-            <p
-              className="text-[#C9A84C] italic text-lg leading-[1.8] max-w-xl mx-auto text-center"
-              style={{ fontFamily: "'Cormorant Garamond', serif" }}
-            >
-              ✦ {CATEGORIES.find((c) => c.name === activeCategory)?.description} ✦
-            </p>
-          </motion.div>
-        </AnimatePresence>
-
-        {/* Products Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCategory}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            {filtered.length > 0 ? (
-              <ProductsGrid products={filtered} />
-            ) : (
-              <div className="text-center py-20">
-                <p className="text-[#6B3F26]/50 text-lg leading-relaxed" style={{ fontFamily: "'Lora', serif" }}>
-                  Coming soon — seasonal magic in the making ✨
-                </p>
-              </div>
-            )}
-          </motion.div>
-        </AnimatePresence>
 
         {/* Custom Order CTA */}
         <motion.div

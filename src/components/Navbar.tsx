@@ -4,9 +4,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, ShoppingBag } from "lucide-react";
 
 const navLinks = [
-  { label: "Collections", href: "#collections" },
-  { label: "Signature", href: "#fusion" },
-  { label: "Our Story", href: "#story" },
+  { label: "Collections", href: "/#collections" },
+  { label: "Signature", href: "/#fusion" },
+  { label: "Our Story", href: "/#story" },
 ];
 
 export default function Navbar() {
@@ -35,7 +35,7 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
           {/* Logo */}
           <motion.a
-            href="#"
+            href="/"
             className="flex flex-col items-center group"
             whileHover={{ scale: 1.02 }}
           >
