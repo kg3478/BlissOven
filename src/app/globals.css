@@ -46,7 +46,6 @@ body {
   color: var(--chocolate);
   font-family: var(--font-body);
   overflow-x: hidden;
-  cursor: none;
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -184,7 +183,7 @@ p {
   background: var(--ivory);
   border: 1px solid rgba(201, 168, 76, 0.15);
   transition: all 0.6s var(--ease-luxury);
-  cursor: none;
+  cursor: pointer;
 }
 
 .product-card::before {
@@ -238,7 +237,7 @@ p {
   font-size: 0.85rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  cursor: none;
+  cursor: pointer;
   transition: all 0.4s var(--ease-luxury);
   overflow: hidden;
 }
@@ -516,7 +515,7 @@ p {
   justify-content: center;
   box-shadow: 0 8px 30px rgba(37, 211, 102, 0.4);
   transition: all 0.3s var(--ease-luxury);
-  cursor: none;
+  cursor: pointer;
 }
 
 .whatsapp-btn:hover {

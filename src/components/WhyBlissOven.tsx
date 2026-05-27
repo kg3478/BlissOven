@@ -18,7 +18,7 @@ export default function WhyBlissOven() {
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <section className="py-24 md:py-32 bg-[#FAF6F1] relative overflow-hidden">
+    <section className="pt-24 pb-48 md:pt-32 md:pb-64 bg-[#FAF6F1] relative overflow-hidden">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_50%_50%,rgba(201,168,76,0.05),transparent)]" />
 
       <div className="max-w-7xl mx-auto px-6">

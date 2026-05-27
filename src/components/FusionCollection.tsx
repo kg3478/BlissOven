@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
 const fusionItems = [
@@ -8,38 +8,194 @@ const fusionItems = [
     tag: "Saffron · Cardamom · Rose",
     desc: "The beloved mithai reimagined as a showstopping celebration cake. Saffron-cardamom cream, rose petal frosting, rasmalai filling.",
     emoji: "🌸",
+    image: "/products/baked-fusion/rasmalai-cake",
     gradient: "linear-gradient(135deg,#FFF8E7,#F5E6C8,#E8D5A0)",
     accentColor: "#B8860B",
-    textDark: true,
+    overlayFrom: "rgba(26,13,5,0.55)",
+    overlayTo: "rgba(26,13,5,0.15)",
   },
   {
     name: "Gulab Jamun Cake",
     tag: "Rose · Syrup · Kesar",
     desc: "Mini gulab jamuns nestled between rose-syrup-soaked sponge layers with kesar cream — pure festive indulgence.",
     emoji: "🌺",
+    image: "/products/baked-fusion/gulab-jamun-cake",
     gradient: "linear-gradient(135deg,#FFF0E8,#FFDCC8,#FFB899)",
     accentColor: "#D2691E",
-    textDark: true,
+    overlayFrom: "rgba(26,13,5,0.55)",
+    overlayTo: "rgba(26,13,5,0.15)",
   },
   {
     name: "Mango Cake",
     tag: "Alphonso · Summer · Tropical",
     desc: "Pure Alphonso mango pulp whipped into cloud-like cream, layered over moist sponge. Summer's finest gift.",
     emoji: "🥭",
+    image: "/products/baked-fusion/mango-cake",
     gradient: "linear-gradient(135deg,#FFFDE7,#FFF9C4,#FFEE58)",
     accentColor: "#F57F17",
-    textDark: true,
+    overlayFrom: "rgba(26,13,5,0.55)",
+    overlayTo: "rgba(26,13,5,0.15)",
   },
   {
     name: "Kesar Pista Cake",
     tag: "Saffron · Pistachio · Regal",
     desc: "Royal saffron-pistachio cream frosted over rose-flavoured sponge — a regal celebration in every slice.",
     emoji: "👑",
+    image: "/products/baked-fusion/kesar-pista-cake",
     gradient: "linear-gradient(135deg,#F0FFF0,#DCEDC8,#C5E1A5)",
     accentColor: "#33691E",
-    textDark: true,
+    overlayFrom: "rgba(26,13,5,0.55)",
+    overlayTo: "rgba(26,13,5,0.15)",
   },
 ];
+
+function FusionCard({ item, index }: { item: typeof fusionItems[0]; index: number }) {
+  const [attempt, setAttempt] = useState<"jpg" | "png" | "none">("jpg");
+  const hasBaseImage = item.image && item.image !== "";
+  const imgSrc = hasBaseImage && attempt !== "none" ? `${item.image}.${attempt}` : null;
+  const onImgError = () => {
+    if (attempt === "jpg") setAttempt("png");
+    else setAttempt("none");
+  };
+  const hasImage = !!imgSrc;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 60 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8, delay: index * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
+      className="group relative overflow-hidden rounded-3xl cursor-pointer"
+      style={{
+        minHeight: "380px",
+        background: hasImage ? "#1A0D05" : item.gradient,
+      }}
+    >
+      {/* Real photo background */}
+      {hasImage && (
+        <img
+          src={imgSrc!}
+          alt={item.name}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{
+            transition: "transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)",
+          }}
+          onError={onImgError}
+        />
+      )}
+
+      {/* Gradient overlay — darker at bottom for text legibility */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background: hasImage
+            ? `linear-gradient(to top, ${item.overlayFrom} 0%, ${item.overlayTo} 55%, rgba(0,0,0,0.08) 100%)`
+            : "none",
+          transition: "background 0.4s ease",
+        }}
+      />
+
+      {/* Hover: deepen overlay slightly */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background: hasImage
+            ? "linear-gradient(to top, rgba(26,13,5,0.3) 0%, transparent 60%)"
+            : `linear-gradient(135deg, ${item.accentColor}22, transparent)`,
+        }}
+      />
+
+      {/* Shimmer for non-image cards */}
+      {!hasImage && <div className="absolute inset-0 shimmer opacity-20" />}
+
+      {/* Border on hover */}
+      <div className="absolute inset-0 rounded-3xl border border-transparent group-hover:border-[rgba(201,168,76,0.5)] transition-all duration-500 pointer-events-none" />
+
+      {/* Content */}
+      <div className="relative z-10 p-8 md:p-10 flex flex-col justify-end h-full" style={{ minHeight: "380px" }}>
+        {/* Emoji (only for non-image fallback) */}
+        {!hasImage && (
+          <motion.div
+            animate={{ y: [0, -8, 0], rotate: [0, 4, 0] }}
+            transition={{ duration: 4 + index, repeat: Infinity, ease: "easeInOut" }}
+            className="text-5xl mb-5 text-center"
+          >
+            {item.emoji}
+          </motion.div>
+        )}
+
+        {/* Tag */}
+        <div
+          className="text-[10px] tracking-[0.25em] uppercase mb-2 font-semibold"
+          style={{
+            fontFamily: "'Inter', sans-serif",
+            color: hasImage ? "#C9A84C" : item.accentColor,
+          }}
+        >
+          {item.tag}
+        </div>
+
+        {/* Name */}
+        <h3
+          className="mb-3 leading-snug"
+          style={{
+            fontFamily: "'Playfair Display', serif",
+            fontSize: "1.8rem",
+            fontWeight: 700,
+            color: hasImage ? "#FAF6F1" : "#1A0D05",
+          }}
+        >
+          {item.name}
+        </h3>
+
+        {/* Description */}
+        <p
+          className="leading-[1.8] mb-7 max-w-sm"
+          style={{
+            fontFamily: "'Lora', serif",
+            fontSize: "0.88rem",
+            color: hasImage ? "rgba(250,246,241,0.82)" : "#3D1F0A",
+          }}
+        >
+          {item.desc}
+        </p>
+
+        {/* CTA Row */}
+        <div className="flex items-center gap-5">
+          <span
+            className="font-bold text-lg"
+            style={{
+              fontFamily: "'Playfair Display', serif",
+              color: hasImage ? "#C9A84C" : item.accentColor,
+            }}
+          >
+            ₹XXX
+          </span>
+          <a
+            href={`https://wa.me/919999999999?text=Hi%20BlissOven!%20I'd%20like%20to%20order%20your%20${encodeURIComponent(item.name)}.%20Please%20share%20details.`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg"
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              background: hasImage ? "#C9A84C" : item.accentColor,
+              color: "#FAF6F1",
+            }}
+          >
+            Order Now
+          </a>
+        </div>
+      </div>
+
+      {/* Decorative circle (non-image only) */}
+      {!hasImage && (
+        <div
+          className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full opacity-20"
+          style={{ background: item.accentColor }}
+        />
+      )}
+    </motion.div>
+  );
+}
 
 export default function FusionCollection() {
   const ref = useRef(null);
@@ -84,81 +240,7 @@ export default function FusionCollection() {
         {/* Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {fusionItems.map((item, i) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: 60 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: i * 0.12, ease: [0.25, 0.46, 0.45, 0.94] }}
-              className="group relative overflow-hidden rounded-3xl"
-              style={{ background: item.gradient }}
-            >
-              <div className="absolute inset-0 shimmer opacity-20" />
-              <div className="absolute inset-0 rounded-3xl border border-transparent group-hover:border-[rgba(201,168,76,0.4)] transition-all duration-500 pointer-events-none" />
-
-              <div className="p-8 md:p-10 relative z-10 text-center">
-                <motion.div
-                  animate={{ y: [0, -8, 0], rotate: [0, 4, 0] }}
-                  transition={{ duration: 4 + i, repeat: Infinity, ease: "easeInOut" }}
-                  className="text-5xl mb-5"
-                >
-                  {item.emoji}
-                </motion.div>
-
-                <div
-                  className="text-[10px] tracking-[0.25em] uppercase mb-3 font-semibold text-center"
-                  style={{ fontFamily: "'Inter', sans-serif", color: item.accentColor }}
-                >
-                  {item.tag}
-                </div>
-
-                <h3
-                  className="mb-4 leading-snug text-center"
-                  style={{
-                    fontFamily: "'Playfair Display', serif",
-                    fontSize: "1.6rem",
-                    fontWeight: 700,
-                    color: item.textDark ? "#1A0D05" : "#FAF6F1",
-                  }}
-                >
-                  {item.name}
-                </h3>
-
-                <p
-                  className="leading-[1.8] mb-7 text-center max-w-sm mx-auto"
-                  style={{
-                    fontFamily: "'Lora', serif",
-                    fontSize: "0.9rem",
-                    color: item.textDark ? "#3D1F0A" : "#FAF6F1",
-                    opacity: 0.75,
-                  }}
-                >
-                  {item.desc}
-                </p>
-
-                <div className="flex items-center justify-center gap-5">
-                  <span
-                    className="font-bold text-lg"
-                    style={{ fontFamily: "'Playfair Display', serif", color: item.accentColor }}
-                  >
-                    ₹XXX
-                  </span>
-                  <a
-                    href={`https://wa.me/919999999999?text=Hi%20BlissOven!%20I'd%20like%20to%20order%20your%20${encodeURIComponent(item.name)}.%20Please%20share%20details.`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-6 py-2.5 rounded-full text-xs font-semibold tracking-widest uppercase transition-all duration-300 hover:scale-105 hover:shadow-lg"
-                    style={{ fontFamily: "'Inter', sans-serif", background: item.accentColor, color: "#FAF6F1" }}
-                  >
-                    Order Now
-                  </a>
-                </div>
-              </div>
-
-              <div
-                className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full opacity-20"
-                style={{ background: item.accentColor }}
-              />
-            </motion.div>
+            <FusionCard key={item.name} item={item} index={i} />
           ))}
         </div>
 

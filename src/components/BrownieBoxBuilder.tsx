@@ -15,7 +15,15 @@ const brownieFlavors = [
   { id: "nutella", name: "Nutella Brownie", emoji: "🌰", color: "#7B3F00" },
 ];
 
-const boxSizes = [
+interface BoxSize {
+  count: number;
+  label: string;
+  price: string;
+  description: string;
+  label2?: string;
+}
+
+const boxSizes: BoxSize[] = [
   { count: 4, label: "Mini Box", price: "₹XXX", description: "Perfect for 1-2 people" },
   { count: 8, label: "Gift Box", label2: "Most Popular", price: "₹XXX", description: "Ideal for gifting" },
   { count: 12, label: "Party Box", price: "₹XXX", description: "Perfect for celebrations" },
@@ -90,48 +98,62 @@ export default function BrownieBoxBuilder() {
           </p>
         </motion.div>
 
-        {/* Box Size Selector */}
+        {/* Box Size Selector Card Wrapper */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12"
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="bg-white/80 backdrop-blur-md border border-[rgba(201,168,76,0.15)] rounded-3xl p-5 sm:p-8 md:p-10 shadow-[0_15px_35px_rgba(26,13,5,0.05)] mb-12 max-w-3xl mx-auto"
         >
-          {boxSizes.map((size) => (
-            <button
-              key={size.count}
-              onClick={() => { setSelectedSize(size); reset(); }}
-              className={`relative p-6 rounded-2xl border-2 text-center transition-all duration-400 ${
-                selectedSize.count === size.count
-                  ? "border-[#C9A84C] bg-[#1A0D05] shadow-[0_8px_30px_rgba(201,168,76,0.15)]"
-                  : "border-[rgba(201,168,76,0.15)] bg-white/60 hover:border-[#C9A84C]/50"
-              }`}
-            >
-              {(size as any).label2 && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#C9A84C] text-[#1A0D05] text-[9px] font-bold tracking-widest uppercase px-3 py-1 rounded-full whitespace-nowrap">
-                  {(size as any).label2}
+          <div className="text-center mb-8">
+            <span className="text-[10px] md:text-xs font-semibold uppercase tracking-widest text-[#C9A84C]">
+              Step 01
+            </span>
+            <h3 className="text-[#1A0D05] text-lg md:text-2xl font-bold mt-1" style={{ fontFamily: "'Playfair Display', serif" }}>
+              Choose Your Box Size
+            </h3>
+            <p className="text-[#6B3F26]/60 text-xs mt-1" style={{ fontFamily: "'Inter', sans-serif" }}>
+              Select the perfect box size to fill with signature brownie flavors
+            </p>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 sm:gap-4 md:gap-6">
+            {boxSizes.map((size) => (
+              <button
+                key={size.count}
+                onClick={() => { setSelectedSize(size); reset(); }}
+                className={`relative aspect-square flex flex-col justify-center items-center p-2 sm:p-4 md:p-6 rounded-2xl border-2 text-center transition-all duration-400 cursor-pointer ${
+                  selectedSize.count === size.count
+                    ? "border-[#C9A84C] bg-[#1A0D05] shadow-[0_8px_30px_rgba(201,168,76,0.15)]"
+                    : "border-[rgba(201,168,76,0.15)] bg-white/60 hover:border-[#C9A84C]/50"
+                }`}
+              >
+                {size.label2 && (
+                  <div className="absolute -top-2 left-1/2 -translate-x-1/2 bg-[#C9A84C] text-[#1A0D05] text-[7px] sm:text-[9px] font-extrabold tracking-widest uppercase px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full whitespace-nowrap shadow-sm z-10">
+                    {size.label2}
+                  </div>
+                )}
+                <div
+                  className={`text-2xl sm:text-4xl md:text-5xl font-bold mb-1 leading-none ${selectedSize.count === size.count ? "text-gradient-gold" : "text-[#1A0D05]"}`}
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  {size.count}
                 </div>
-              )}
-              <div
-                className={`text-3xl font-bold mb-1.5 ${selectedSize.count === size.count ? "text-gradient-gold" : "text-[#1A0D05]"}`}
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
-                {size.count}
-              </div>
-              <div
-                className={`font-semibold text-sm mb-1.5 ${selectedSize.count === size.count ? "text-[#FAF6F1]" : "text-[#3D1F0A]"}`}
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
-                {size.label}
-              </div>
-              <div
-                className={`text-[11px] leading-relaxed ${selectedSize.count === size.count ? "text-[#C9A84C]/70" : "text-[#6B3F26]/60"}`}
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                {size.description}
-              </div>
-            </button>
-          ))}
+                <div
+                  className={`font-semibold text-[10px] sm:text-xs md:text-sm mb-1 leading-normal ${selectedSize.count === size.count ? "text-[#FAF6F1]" : "text-[#3D1F0A]"}`}
+                  style={{ fontFamily: "'Playfair Display', serif" }}
+                >
+                  {size.label}
+                </div>
+                <div
+                  className={`text-[8px] sm:text-[10px] md:text-xs leading-tight mt-0.5 sm:mt-1 ${selectedSize.count === size.count ? "text-[#C9A84C]/70" : "text-[#6B3F26]/60"}`}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {size.description}
+                </div>
+              </button>
+            ))}
+          </div>
         </motion.div>
 
         {/* Progress Bar */}

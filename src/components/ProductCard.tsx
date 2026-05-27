@@ -12,6 +12,14 @@ function PlaceholderImage({
   product: Product;
   height?: number;
 }) {
+  const [attempt, setAttempt] = useState<"jpg" | "png" | "none">("jpg");
+  const hasBaseImage = product.image && product.image !== "";
+  const imgSrc = hasBaseImage && attempt !== "none" ? `${product.image}.${attempt}` : null;
+  const onImgError = () => {
+    if (attempt === "jpg") setAttempt("png");
+    else setAttempt("none");
+  };
+
   const gradients: Record<string, string> = {
     "Baked Cakes": "linear-gradient(135deg, #D4B896 0%, #E8D5B7 50%, #FAF6F1 100%)",
     "Baked Fusion":
@@ -38,6 +46,24 @@ function PlaceholderImage({
     "White Centre Filled Chocolates": "🤍",
   };
 
+  // If the product has a real image and it hasn't errored, render it
+  if (imgSrc) {
+    return (
+      <div className="w-full relative overflow-hidden" style={{ height }}>
+        <img
+          src={imgSrc}
+          alt={product.name}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ transition: "transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94)" }}
+          onError={onImgError}
+        />
+        {/* Subtle gradient overlay for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#1A0D05]/30 via-transparent to-transparent" />
+      </div>
+    );
+  }
+
+  // Fallback: gradient placeholder
   return (
     <div
       className="w-full flex flex-col items-center justify-center relative overflow-hidden"
@@ -68,6 +94,7 @@ function PlaceholderImage({
     </div>
   );
 }
+
 
 // ─── Product Card ────────────────────────────────────────────────────────────
 export function ProductCard({

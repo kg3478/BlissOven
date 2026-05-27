@@ -7,8 +7,6 @@ const navLinks = [
   { label: "Collections", href: "#collections" },
   { label: "Signature", href: "#fusion" },
   { label: "Our Story", href: "#story" },
-  { label: "Gallery", href: "#gallery" },
-  { label: "Flavours", href: "#flavours" },
 ];
 
 export default function Navbar() {

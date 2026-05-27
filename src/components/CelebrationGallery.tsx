@@ -2,36 +2,37 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 
-const celebrations = [
-  { label: "Birthdays", emoji: "🎂", color: "from-rose-200/40 to-pink-100/40" },
-  { label: "Weddings", emoji: "💍", color: "from-amber-100/40 to-yellow-50/40" },
-  { label: "Anniversaries", emoji: "🌹", color: "from-red-100/40 to-rose-50/40" },
-  { label: "Gifting", emoji: "🎁", color: "from-purple-100/40 to-indigo-50/40" },
-  { label: "Festive", emoji: "✨", color: "from-orange-100/40 to-amber-50/40" },
-  { label: "Corporate", emoji: "🏆", color: "from-stone-100/40 to-gray-50/40" },
-];
+
 
 const galleryItems = [
-  { id: 1, label: "Birthday Celebration", h: 340, gradient: "linear-gradient(135deg,#D4B896,#E8D5B7,#FAF6F1)", emoji: "🎂" },
-  { id: 2, label: "Wedding Cake", h: 260, gradient: "linear-gradient(135deg,#E8D5B7,#FAF6F1,#F5EFE6)", emoji: "💍" },
-  { id: 3, label: "Anniversary Special", h: 300, gradient: "linear-gradient(135deg,#C9A84C,#E4C76B,#FAF6F1)", emoji: "🌹" },
-  { id: 4, label: "Chocolate Box", h: 280, gradient: "linear-gradient(135deg,#3D1F0A,#6B3F26,#8B5E3C)", emoji: "🍫" },
-  { id: 5, label: "Gift Hamper", h: 360, gradient: "linear-gradient(135deg,#FAF6F1,#E8D5B7,#D4B896)", emoji: "🎁" },
-  { id: 6, label: "Festival Cake", h: 240, gradient: "linear-gradient(135deg,#E8C547,#D4A017,#B8860B)", emoji: "✨" },
-  { id: 7, label: "Cheesecake Platter", h: 320, gradient: "linear-gradient(135deg,#E8D5E8,#D4B8D4,#BFA0BF)", emoji: "🍰" },
-  { id: 8, label: "Brownie Tower", h: 270, gradient: "linear-gradient(135deg,#2C1810,#3D1F0A,#6B3F26)", emoji: "🍫" },
-  { id: 9, label: "Cookie Bouquet", h: 290, gradient: "linear-gradient(135deg,#D4A017,#B8860B,#8B6914)", emoji: "🍪" },
+  { id: 1, label: "Birthday Celebration", h: 340, gradient: "linear-gradient(135deg,#D4B896,#E8D5B7,#FAF6F1)", emoji: "🎂",  image: "/gallery/birthday-celebration" },
+  { id: 2, label: "Wedding Cake",         h: 260, gradient: "linear-gradient(135deg,#E8D5B7,#FAF6F1,#F5EFE6)", emoji: "💍",  image: "/gallery/wedding-cake" },
+  { id: 3, label: "Anniversary Special",  h: 300, gradient: "linear-gradient(135deg,#C9A84C,#E4C76B,#FAF6F1)", emoji: "🌹",  image: "/gallery/anniversary-special" },
+  { id: 4, label: "Chocolate Box",        h: 280, gradient: "linear-gradient(135deg,#3D1F0A,#6B3F26,#8B5E3C)", emoji: "🍫",  image: "/gallery/chocolate-box" },
+  { id: 5, label: "Gift Hamper",          h: 360, gradient: "linear-gradient(135deg,#FAF6F1,#E8D5B7,#D4B896)", emoji: "🎁",  image: "/gallery/gift-hamper" },
+  { id: 6, label: "Festival Cake",        h: 240, gradient: "linear-gradient(135deg,#E8C547,#D4A017,#B8860B)", emoji: "✨",  image: "/gallery/festival-cake" },
+  { id: 7, label: "Cheesecake Platter",   h: 320, gradient: "linear-gradient(135deg,#E8D5E8,#D4B8D4,#BFA0BF)", emoji: "🍰",  image: "/gallery/cheesecake-platter" },
+  { id: 8, label: "Brownie Tower",        h: 270, gradient: "linear-gradient(135deg,#2C1810,#3D1F0A,#6B3F26)", emoji: "🍫",  image: "/gallery/brownie-tower" },
+  { id: 9, label: "Cookie Bouquet",       h: 290, gradient: "linear-gradient(135deg,#D4A017,#B8860B,#8B6914)", emoji: "🍪",  image: "/gallery/cookie-bouquet" },
 ];
+
+// Tries jpg → png → null (gradient fallback)
+function useImageSrc(base: string) {
+  const [attempt, setAttempt] = useState<"jpg" | "png" | "none">("jpg");
+  const src = attempt === "none" ? null : `${base}.${attempt}`;
+  const onError = () => {
+    if (attempt === "jpg") setAttempt("png");
+    else setAttempt("none");
+  };
+  return { src, onError };
+}
 
 function GalleryItem({ item, index }: { item: typeof galleryItems[0]; index: number }) {
   const [hovered, setHovered] = useState(false);
+  const { src: imgSrc, onError: onImgError } = useImageSrc(item.image);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  const isDark =
-    item.gradient.includes("#3D1F0A") ||
-    item.gradient.includes("#2C1810") ||
-    item.gradient.includes("#1A0D05");
+  const hasImage = !!imgSrc;
 
   return (
     <motion.div
@@ -39,43 +40,52 @@ function GalleryItem({ item, index }: { item: typeof galleryItems[0]; index: num
       initial={{ opacity: 0, y: 40 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.7, delay: index * 0.07 }}
-      className="masonry-item relative rounded-2xl overflow-hidden cursor-none group"
-      style={{ height: item.h, background: item.gradient }}
+      className="masonry-item relative rounded-2xl overflow-hidden cursor-pointer group"
+      style={{ height: item.h, background: hasImage ? "#1A0D05" : item.gradient }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Shimmer */}
-      <div className="absolute inset-0 shimmer opacity-30" />
-      {/* Radial highlight */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent)]" />
+      {/* Real photo — tries jpg then png automatically */}
+      {hasImage && (
+        <img
+          src={imgSrc!}
+          alt={item.label}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ transform: hovered ? "scale(1.08)" : "scale(1)", transition: "transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94)" }}
+          onError={onImgError}
+        />
+      )}
 
-      {/* Emoji */}
-      <motion.div
-        animate={{ scale: hovered ? 1.15 : 1, rotate: hovered ? 5 : 0 }}
-        transition={{ duration: 0.4 }}
-        className="absolute inset-0 flex items-center justify-center text-6xl select-none"
-      >
-        {item.emoji}
-      </motion.div>
-
-      {/* Overlay on hover */}
-      <motion.div
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ duration: 0.35 }}
-        className="absolute inset-0 bg-gradient-to-t from-[#1A0D05]/80 via-transparent to-transparent flex items-end p-5"
-      >
-        <div>
-          <p
-            className="text-[#FAF6F1] font-semibold text-sm mb-1"
-            style={{ fontFamily: "'Playfair Display', serif" }}
+      {/* Gradient fallback decorations */}
+      {!hasImage && (
+        <>
+          <div className="absolute inset-0 shimmer opacity-30" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.15),transparent)]" />
+          <motion.div
+            animate={{ scale: hovered ? 1.15 : 1, rotate: hovered ? 5 : 0 }}
+            transition={{ duration: 0.4 }}
+            className="absolute inset-0 flex items-center justify-center text-6xl select-none"
           >
-            {item.label}
-          </p>
-          <p className="text-[#C9A84C] text-[10px] tracking-widest uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
-            By BlissOven ✦
-          </p>
-        </div>
-      </motion.div>
+            {item.emoji}
+          </motion.div>
+        </>
+      )}
+
+      {/* Persistent label overlay at bottom */}
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1A0D05]/75 via-transparent to-transparent" />
+
+      {/* Label — always visible */}
+      <div className="absolute bottom-0 left-0 right-0 p-5">
+        <p
+          className="text-[#FAF6F1] font-semibold text-sm mb-0.5"
+          style={{ fontFamily: "'Playfair Display', serif" }}
+        >
+          {item.label}
+        </p>
+        <p className="text-[#C9A84C] text-[10px] tracking-widest uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
+          By BlissOven ✦
+        </p>
+      </div>
     </motion.div>
   );
 }
@@ -83,7 +93,6 @@ function GalleryItem({ item, index }: { item: typeof galleryItems[0]; index: num
 export default function CelebrationGallery() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeFilter, setActiveFilter] = useState("Birthdays");
 
   return (
     <section id="gallery" className="py-24 md:py-32 bg-[#F5EFE6] relative overflow-hidden">
@@ -117,28 +126,7 @@ export default function CelebrationGallery() {
           </p>
         </motion.div>
 
-        {/* Filter Pills */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-3 mb-12"
-        >
-          {celebrations.map((c) => (
-            <button
-              key={c.label}
-              onClick={() => setActiveFilter(c.label)}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium tracking-wider uppercase transition-all duration-300 border ${
-                activeFilter === c.label
-                  ? "bg-[#1A0D05] border-[#C9A84C] text-[#C9A84C]"
-                  : "bg-white/60 border-[rgba(201,168,76,0.2)] text-[#6B3F26] hover:border-[#C9A84C]"
-              }`}
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              {c.emoji} {c.label}
-            </button>
-          ))}
-        </motion.div>
+
 
         {/* Masonry Grid */}
         <div className="masonry-grid">

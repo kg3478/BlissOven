@@ -173,29 +173,19 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.45 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex items-center justify-center"
         >
-          <a
-            href="https://wa.me/919999999999?text=Hi%20BlissOven!%20I'd%20like%20to%20place%20an%20order."
-            target="_blank"
-            rel="noopener noreferrer"
-            id="hero-order-btn"
-            className="btn-magnetic btn-primary flex items-center gap-2 text-sm"
-          >
-            <Sparkles size={14} />
-            Order Now
-          </a>
           <a
             href="#collections"
             id="hero-explore-btn"
-            className="btn-magnetic btn-outline text-sm"
+            className="btn-magnetic btn-outline text-sm px-8 py-3.5"
           >
             Explore Menu
           </a>
         </motion.div>
 
         {/* Slide Dots */}
-        <div className="flex items-center justify-center gap-2 mt-12">
+        <div className="flex items-center justify-center gap-2 mt-16">
           {heroSlides.map((_, i) => (
             <button
               key={i}
